@@ -11,6 +11,12 @@ class Student:
 
     def __str__(self):
         return f"Student(id={self.id}, name={self.name})"
+    
+    #Qikjo e bon klasen Student Serializable ne JSON, ashtut qe mos pe mas nevoje
+    #Me ndrru ne sdisa vende ne rast se klasa Student ka ndonje ndryshim.
+    #E njejta vlene edhe per klasen Course edhe Enrollment
+    def to_dict(self):
+        return {"id": self.id, "name": self.name}
 
 class Course:
     def __init__(self, code, title):
@@ -27,6 +33,9 @@ class Course:
 
     def __str__(self):
         return f"Course(code={self.code}, title={self.title})"
+    
+    def to_dict(self):
+        return {"code": self.code, "title": self.title}
 
 class Enrollment:
     def __init__(self, student_id, course_code, grades=None):
@@ -43,3 +52,6 @@ class Enrollment:
 
     def __str__(self):
         return(f"Enrollment(student_id={self.student_id}, course_code={self.course_code}, grades={self.grades})")
+
+    def to_dict(self):
+        return {"student_id": self.student_id, "course_code": self.course_code, "grades": self.grades}

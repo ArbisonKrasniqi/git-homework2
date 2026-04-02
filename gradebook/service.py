@@ -1,0 +1,71 @@
+from .storage import load_data, save_data
+from .models import Course, Enrollment, Student
+
+def add_student(name):
+    data = load_data()
+    #Mundemi edhe me nje lloj te timestamp
+    #Incremental Id is not wrong
+    new_id = len(data["students"]) + 1
+    student = Student(new_id, name)
+    data["students"].append(student.to_dict())
+    save_data(data)
+    return new_id
+
+def add_course(code, title):
+    data = load_data()
+    course = Course(code, title)
+    data["courses"].append(course.to_dict())
+    save_data(data)
+    return
+
+def enroll(student_id, course_code):
+    data = load_data()
+    enrollment = Enrollment(student_id, course_code)
+    data["enrollments"].append(enrollment.to_dict())
+    save_data(data)
+    return
+
+def add_grade(student_id, course_code, grade):
+    data = load_data()
+    for e in data["enrollments"]:
+        if e["student_id"] == student_id and e["course_code"] == course_code:
+            #Prej dict, krijo nje objet te Enrollment
+            enrollment_obj = Enrollment(e["student_id"], e["course_code"], e["grades"])
+            #Perdor metodat e dict per te mos anashkaluar validimet per shtimin e notes
+            enrollment_obj.add_grade(grade)
+            #Rivendos dict me notat e reja
+            e["grades"] = enrollment_obj.grades
+            save_data(data)
+            return
+    raise ValueError(f"Student with student_id: {student_id} enrolled in course: {course_code} does not exist!")
+    
+def list_students():
+    data = load_data()
+    return sorted(data["students"], key=lambda s: s["name"])
+
+def list_courses():
+    data = load_data()
+    return sorted(data["courses"], key=lambda c: c["code"])
+
+def list_enrollments():
+    data = load_data()
+    return sorted(data["enrollments"], key= lambda e: e["course_code"])
+
+def compute_average(student_id, course_code):
+    data = load_data()
+    for e in data["enrollments"]:
+        if e["student_id"] == student_id and e["course_code"] == course_code:
+            if not e["grades"]:
+                return 0.0
+            return sum(e["grades"]) / len(e["grades"])
+    raise ValueError(f"No enrollment found for student {student_id} in the course {course_code}")
+
+def compute_gpa(student_id): #Simple mean of course averages
+    data = load_data()
+    enrollments = [e for e in data["enrollments"] if e["student_id"] == student_id]
+
+    if not enrollments:
+            raise ValueError(f"No enrollments found for student {student_id}.")
+    
+    averages = [compute_average(student_id, e["course_code"]) for e in enrollments]
+    return sum(averages) / len(averages)
