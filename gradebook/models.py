@@ -3,8 +3,8 @@ class Student:
     def __init__(self, id, name):
         if not isinstance(name, str) or not name.strip():
             raise ValueError("Name must be a non-empty string.")
-        if not len(name.strip()) > 3:
-            raise ValueError("Name should be longer than 3 characters")
+        if not len(name.strip()) > 2:
+            raise ValueError("Name should be longer than 2 characters")
         self.student_id = id
         self.name = name.strip()
         pass

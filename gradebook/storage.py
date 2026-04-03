@@ -15,10 +15,12 @@ def load_data(path=DEFAULT_PATH):
         return data
     except FileNotFoundError:
         logger.info(f"No data file found at {path}, Creating new file.")
+        print(f"No data file found at {path}, Creating new file.")
         return {"students": [], "courses": [], "enrollments": []}
     except json.JSONDecodeError:
         logger.error(f"Error parsing JSON {path}. Check file format")
         print(f"Error: {path} is not valid. Creating new file.")
+        return {"students": [], "courses": [], "enrollments": []}
 
 def save_data(data, path=DEFAULT_PATH):
     try:
