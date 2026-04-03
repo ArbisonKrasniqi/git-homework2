@@ -9,7 +9,7 @@ os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
     filename="logs/app.log",
     level=logging.INFO,
-    format="%(levelname)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 def string_to_number(value):
