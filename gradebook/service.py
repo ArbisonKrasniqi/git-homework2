@@ -39,15 +39,15 @@ def add_grade(student_id, course_code, grade):
             return
     raise ValueError(f"Student with student_id: {student_id} enrolled in course: {course_code} does not exist!")
     
-def list_students():
+def list_students(sort_by="name"):
     data = load_data()
     students = [Student(s["id"], s["name"]) for s in data["students"]]
-    return sorted(students, key=lambda s: s.name)
+    return sorted(students, key=lambda s: getattr(s, sort_by))
 
-def list_courses():
+def list_courses(sort_by="code"):
     data = load_data()
     courses = [Course(c["code"], c["title"]) for c in data["courses"]]
-    return sorted(courses, key=lambda c: c.code)
+    return sorted(courses, key=lambda c: getattr(c, sort_by))
 
 def list_enrollments():
     data = load_data()

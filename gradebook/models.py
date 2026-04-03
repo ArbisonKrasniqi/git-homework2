@@ -10,13 +10,13 @@ class Student:
         pass
 
     def __str__(self):
-        return f"Student(id={self.id}, name={self.name})"
+        return f"Student(id={self.student_id}, name={self.name})"
     
     #Qikjo e bon klasen Student Serializable ne JSON, ashtut qe mos pe mas nevoje
     #Me ndrru ne sdisa vende ne rast se klasa Student ka ndonje ndryshim.
     #E njejta vlene edhe per klasen Course edhe Enrollment
     def to_dict(self):
-        return {"id": self.id, "name": self.name}
+        return {"id": self.student_id, "name": self.name}
 
 class Course:
     def __init__(self, code, title):

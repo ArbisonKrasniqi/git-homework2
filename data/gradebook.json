@@ -1,0 +1,1 @@
+{"students": [{"id": 1, "name": "John"}, {"id": 2, "name": "Jane"}], "courses": [{"code": "CS101", "title": "Intro to CS"}, {"code": "CS102", "title": "Data Structures"}], "enrollments": [{"student_id": 1, "course_code": "CS101", "grades": [95.0]}, {"student_id": 1, "course_code": "CS102", "grades": [80.0]}, {"student_id": 2, "course_code": "CS101", "grades": [70.0]}]}

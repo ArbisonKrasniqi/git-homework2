@@ -35,28 +35,28 @@ def main():
 
     # enroll
     p_enroll = subparsers.add_parser("enroll")
-    p_enroll.add_argument("--student-id", required=True)
+    p_enroll.add_argument("--student-id", required=True, type=int)
     p_enroll.add_argument("--course", required=True)
 
     # add-grade
     p_add_grade = subparsers.add_parser("add-grade")
-    p_add_grade.add_argument("--student-id", required=True)
+    p_add_grade.add_argument("--student-id", required=True, type=int)
     p_add_grade.add_argument("--course", required=True)
     p_add_grade.add_argument("--grade", required=True)
 
     # list
     p_list = subparsers.add_parser("list")
     p_list.add_argument("type", choices=["students", "courses", "enrollments"])
-    p_list.add_argument("--sort", choices=["name", "code"], default=None)
+    p_list.add_argument("--sort", choices=["name", "code", "student_id"], default=None)
     
     # avg
     p_avg = subparsers.add_parser("avg")
-    p_avg.add_argument("--student-id", required=True)
+    p_avg.add_argument("--student-id", required=True, type=int)
     p_avg.add_argument("--course", required=True)
 
     # gpa
     p_gpa = subparsers.add_parser("gpa")
-    p_gpa.add_argument("--student-id", required=True)
+    p_gpa.add_argument("--student-id", required=True, type=int)
 
     args = parser.parse_args()
 
@@ -76,13 +76,16 @@ def main():
         elif args.command == "add-grade":
             grade = string_to_number(args.grade)
             add_grade(args.student_id, args.course, grade)
+            print(f"Grade {grade} added for student {args.student_id} in {args.course}.")
 
         elif args.command == "list":
             if args.type == "students":
-                for s in list_students():
+                sort_by = args.sort if args.sort else "name"
+                for s in list_students(sort_by):
                     print(s)
             elif args.type == "courses":
-                for c in list_courses():
+                sort_by = args.sort if args.sort else "code"
+                for c in list_courses(sort_by):
                     print(c)
             elif args.type == "enrollments":
                 for e in list_enrollments():
@@ -92,6 +95,15 @@ def main():
             avg = compute_average(args.student_id, args.course)
             print(f"Average for student {args.student_id} in {args.course}: {avg}")
 
+        elif args.command =="gpa":
+            gpa = compute_gpa(args.student_id)
+            print(f"GPA for student {args.student_id}: {gpa}")
+
+        else:
+            parser.print_help()
     except ValueError as e:
         logging.error(str(e))
         print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
