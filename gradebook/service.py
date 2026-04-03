@@ -41,15 +41,18 @@ def add_grade(student_id, course_code, grade):
     
 def list_students():
     data = load_data()
-    return sorted(data["students"], key=lambda s: s["name"])
+    students = [Student(s["id"], s["name"]) for s in data["students"]]
+    return sorted(students, key=lambda s: s.name)
 
 def list_courses():
     data = load_data()
-    return sorted(data["courses"], key=lambda c: c["code"])
+    courses = [Course(c["code"], c["title"]) for c in data["courses"]]
+    return sorted(courses, key=lambda c: c.code)
 
 def list_enrollments():
     data = load_data()
-    return sorted(data["enrollments"], key= lambda e: e["course_code"])
+    enrollments = [Enrollment(e["student_id"], e["course_code"], e["grades"]) for e in data["enrollments"]]
+    return sorted(enrollments, key=lambda e: e.course_code)
 
 def compute_average(student_id, course_code):
     data = load_data()
