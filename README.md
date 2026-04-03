@@ -29,7 +29,7 @@ python -m unittest tests/test_service.py -v
 ```
 
 ## Description
-The data is stored in a JSON file (`data/gradebook.json') instead of a database.
+The data is stored in a JSON file (`data/gradebook.json`) instead of a database.
 Student IDs are auto-incremental 
 Grades are stored as a list letting a student to have more than one grade
 Logs are written in `logs/app.log`
